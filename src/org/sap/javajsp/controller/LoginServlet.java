@@ -32,11 +32,11 @@ try
            
           HttpSession session = request.getSession(true);       
           session.setAttribute("currentSessionUser",user); 
-          response.sendRedirect("userLogged.jsp"); //logged-in page            
+          response.sendRedirect("Home.jsp"); //logged-in page            
      }
            
      else 
-          response.sendRedirect("invalidLogin.jsp"); //error page 
+          response.sendRedirect("Error.jsp"); //error page 
 } 
       
       

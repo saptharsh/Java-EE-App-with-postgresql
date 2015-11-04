@@ -25,7 +25,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response)
          HttpSession session=request.getSession(false);
          session.removeAttribute("currentSessionUser");
          session.invalidate();
-         response.sendRedirect("LoginPage.jsp");
+         response.sendRedirect("newLoginPage.jsp");
    }      
    catch (Throwable theException)        
    {
