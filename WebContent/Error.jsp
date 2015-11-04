@@ -28,7 +28,7 @@
 				<h2 class="form-signin-heading">Please Try signing in with
 					correct credentials</h2>
 				<p>
-					New User? <a href="register.jsp">Register</a>
+					New User? <a href="newLoginPage.jsp">Register</a>
 				</p>
 
 				<a class="btn btn-warning btn-block" href="newLoginPage.jsp">Return</a>
