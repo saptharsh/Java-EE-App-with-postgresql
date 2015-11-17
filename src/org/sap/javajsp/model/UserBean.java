@@ -1,7 +1,8 @@
 package org.sap.javajsp.model;
 
 public class UserBean {
-	   
+	
+	private int userid;
     private String username;
     private String password;
     private String firstName;
@@ -62,5 +63,13 @@ public class UserBean {
 
     public void setValid(boolean newValid) {
        valid = newValid;
-   }   
+   }
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}   
 } 

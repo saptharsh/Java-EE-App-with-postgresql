@@ -1,54 +1,56 @@
 package org.sap.javajsp.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 import org.sap.javajsp.model.UserBean;
 
 public class UserDAO    
 {
    static Connection currentCon = null;
-   static ResultSet rs = null;     
+   static ResultSet rsprepare = null;
+   static PreparedStatement stmnt = null;
    public static UserBean login(UserBean bean) {
    
       //preparing some objects for connection 
-      Statement stmt = null;    
-   
       String username = bean.getUsername();    
       String password = bean.getPassword();   
        
-      String searchQuery =
-            "select * from users where username='"
-                     + username
-                     + "' AND password='"
-                     + password
-                     + "'";
+      String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+      
        
    // "System.out.println" prints in the console; Normally used to trace the process
    System.out.println("Your user name is " + username);          
    System.out.println("Your password is " + password);
-   System.out.println("Query: "+searchQuery);
+   System.out.println("Query: "+sql);
        
    try 
    {
       //connect to DB 
       currentCon = ConnectionManager.getConnection();
-      stmt=currentCon.createStatement();
-      rs = stmt.executeQuery(searchQuery);
-      boolean more = rs.next();
+      
+      stmnt = currentCon.prepareStatement(sql);
+      
+      stmnt.setString(1, username);
+      stmnt.setString(2, password);
+      
+      rsprepare = stmnt.executeQuery();
+      
+      boolean moree = rsprepare.next();
+      
       // if user does not exist set the isValid variable to false
-      if (!more) 
+      if (!moree) 
       {
          System.out.println("Sorry, you are not a registered user! Please sign up first");
          bean.setValid(false);
       } 
            
       //if user exists set the isValid variable to true
-      else if (more) 
+      else if (moree) 
       {
-         String firstName = rs.getString("FirstName");
-         String lastName = rs.getString("LastName");
+         String firstName = rsprepare.getString("FirstName");
+         String lastName = rsprepare.getString("LastName");
            
          System.out.println("Welcome " + firstName);
          bean.setFirstName(firstName);
@@ -65,18 +67,18 @@ public class UserDAO
    //some exception handling
    finally 
    {
-      if (rs != null)   {
+      if (rsprepare != null)   {
          try {
-            rs.close();
+            rsprepare.close();
          } catch (Exception e) {}
-            rs = null;
+            rsprepare = null;
          }
    
-      if (stmt != null) {
+      if (stmnt != null) {
          try {
-            stmt.close();
+            stmnt.close();
          } catch (Exception e) {}
-            stmt = null;
+            stmnt = null;
          }
    
       if (currentCon != null) {
